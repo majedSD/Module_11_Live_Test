@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 void main() {
   runApp(const MyApp());
@@ -39,17 +40,23 @@ class _WeatherListState extends State<WeatherList> {
 
   @override
   void initState() {
+    getweatherdata();
     super.initState();
-    final jsonWeatherData = jsonDecode(jsonData) as List;
-    weatherData = jsonWeatherData.map((data) => WeatherData(
-      data['city'],
-      data['temperature'],
-      data['condition'],
-      data['humidity'],
-      data['windSpeed'].toDouble(),
-    )).toList();
   }
-
+  Future<void>getweatherdata()async{
+    List<dynamic> jsonWeatherData = jsonDecode(jsonData) ;
+    for(var weather in jsonWeatherData){
+      weatherData.add(WeatherData(
+        weather['city'],
+        weather['temperature'],
+        weather['condition'],
+        weather['humidity'],
+        weather['windSpeed']
+      ));
+    }
+    setState(() {
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
